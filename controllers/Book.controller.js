@@ -57,10 +57,33 @@ const deleteBook = async (req, res, next) => {
     if (!deletedBook) {
       return res.status(404).json({ error: "Book not found" });
     }
-    res.status(200).json({ 
-        status: 201,
-        message: "Book deleted successfully"
-     });
+    res.status(200).json({
+      status: 201,
+      message: "Book deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addBookReview = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { reviewText, reviewer, rating } = req.body;
+
+    const book = await Book.findById(id);
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    const newReview = { reviewText, reviewer, rating };
+    book.reviews.push(newReview);
+    book.ratings =
+      (book.ratings * (book.reviews.length - 1) + rating) / book.reviews.length;
+
+    await book.save();
+
+    res.status(201).json({ message: "Review added successfully", book });
   } catch (error) {
     next(error);
   }
@@ -70,5 +93,6 @@ module.exports = {
   createBook,
   getBookById,
   updateBook,
-  deleteBook
+  deleteBook,
+  addBookReview,
 };
