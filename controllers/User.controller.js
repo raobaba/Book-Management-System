@@ -20,12 +20,10 @@ const Register = asyncHandler(async (req, res) => {
     password: hashedPassword,
     age,
     address,
-    isAdmin
+    isAdmin,
   });
 
   await user.save();
-
-  // Return registered user data upon successful registration
   res
     .status(201)
     .json({ status: 201, message: "User created successfully", user });
@@ -49,8 +47,6 @@ const Login = asyncHandler(async (req, res) => {
   const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
     expiresIn: "1h",
   });
-
-  // Return user data and token upon successful login
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: 3600000,

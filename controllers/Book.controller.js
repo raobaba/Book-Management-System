@@ -71,36 +71,41 @@ const addBookReview = asyncHandler(async (req, res, next) => {
 });
 
 const addLendingHistory = asyncHandler(async (req, res, next) => {
-    const { id } = req.params;
-    const { userId } = req.body;
-  
-    const book = await Book.findById(id);
-    if (!book) {
-      return res.status(404).json({ error: "Book not found" });
-    }
-    const borrowedDate = new Date(); 
-    const returnedDate = new Date();
-    returnedDate.setDate(returnedDate.getDate() + 5);
-    const lendingRecord = {
-      user: userId,
-      borrowedDate,
-      returnedDate,
-    };
-    book.lendingHistory.push(lendingRecord);
-    await book.save();
-  
-    res.status(201).json({
-      status: 201,
-      message: "Lending history added successfully",
-      book,
-    });
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  const book = await Book.findById(id);
+  if (!book) {
+    return res.status(404).json({ error: "Book not found" });
+  }
+  const borrowedDate = new Date();
+  const returnedDate = new Date();
+  returnedDate.setDate(returnedDate.getDate() + 5);
+  const lendingRecord = {
+    user: userId,
+    borrowedDate,
+    returnedDate,
+  };
+  book.lendingHistory.push(lendingRecord);
+  await book.save();
+
+  res.status(201).json({
+    status: 201,
+    message: "Lending history added successfully",
+    book,
   });
-  
+});
 
 const getAllBooks = asyncHandler(async (req, res) => {
-    const allBooks = await Book.find();
-    res.status(200).json({ status: 200, message: 'All books retrieved successfully', books: allBooks });
-  });
+  const allBooks = await Book.find();
+  res
+    .status(200)
+    .json({
+      status: 200,
+      message: "All books retrieved successfully",
+      books: allBooks,
+    });
+});
 
 module.exports = {
   createBook,
@@ -109,5 +114,5 @@ module.exports = {
   deleteBook,
   addBookReview,
   addLendingHistory,
-  getAllBooks
+  getAllBooks,
 };
