@@ -18,7 +18,7 @@ const getBookById = asyncHandler(async (req, res, next) => {
       return res.status(404).json({ message: "Book not found" });
     }
     res.status(200).json({
-      status: 200, // Corrected status code from 201 to 200
+      status: 201, // Corrected status code from 201 to 200
       message: "Book retrieved successfully",
       book,
     });
@@ -33,7 +33,7 @@ const getBookById = asyncHandler(async (req, res, next) => {
       return res.status(404).json({ error: "Book not found" });
     }
     res.status(200).json({
-      status: 200,
+      status: 201,
       message: "Book updated successfully",
       book: updatedBook,
     });
@@ -46,7 +46,7 @@ const getBookById = asyncHandler(async (req, res, next) => {
       return res.status(404).json({ error: "Book not found" });
     }
     res.status(200).json({
-      status: 200,
+      status: 201,
       message: "Book deleted successfully",
     });
   });
