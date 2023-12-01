@@ -4,7 +4,7 @@ const User = require("../models/User.model.js");
 const asyncHandler = require("../middlewares/asyncHandler.middleware");
 
 const Register = asyncHandler(async (req, res) => {
-  const { name, email, password, age, address } = req.body;
+  const { name, email, password, age, address, isAdmin } = req.body;
 
   let user = await User.findOne({ email });
 
@@ -20,6 +20,7 @@ const Register = asyncHandler(async (req, res) => {
     password: hashedPassword,
     age,
     address,
+    isAdmin
   });
 
   await user.save();
@@ -55,6 +56,11 @@ const Login = asyncHandler(async (req, res) => {
     maxAge: 3600000,
     sameSite: "strict",
   });
+  res.cookie("userId", user._id, {
+    httpOnly: true,
+    maxAge: 3600000,
+    sameSite: "strict",
+  });
 
   res.json({ status: 201, message: "Logged in successfully", user });
 });
@@ -69,4 +75,13 @@ const Logout = asyncHandler(async (req, res) => {
   res.status(200).json({ status: 201, message: "Logged out successfully" });
 });
 
-module.exports = { Register, Login, Logout };
+const getAllUsers = asyncHandler(async (req, res) => {
+  const allUsers = await User.find();
+  res.status(200).json({
+    status: 200,
+    message: "All users retrieved successfully",
+    users: allUsers,
+  });
+});
+
+module.exports = { Register, Login, Logout, getAllUsers };
