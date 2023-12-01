@@ -2,16 +2,17 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const path = require('path');
-// const errorMiddleware = require("./middlewares/error");
+const errorHandler = require('./middlewares/error.middleware.js');
+const bookRouter = require('./routes/Book.route.js');
 const Connection = require("./config/db.js");
 const app = express();
 
-app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 Connection();
 
+app.use('/api/v1',bookRouter);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "Triluxo/build")));
@@ -25,6 +26,6 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-// app.use(errorMiddleware);
+app.use(errorHandler);
 
 module.exports = app;
