@@ -1,8 +1,13 @@
-const express = require('express');
+const express = require("express");
 const bookRouter = express.Router();
-const {createBook, getBookById} = require('../controllers/Book.controller.js');
+const {
+  createBook,
+  getBookById,
+  updateBook,
+} = require("../controllers/Book.controller.js");
 
-bookRouter.post('/create', createBook);
-bookRouter.get('/getById/:id',getBookById);
+bookRouter.post("/create", createBook);
+bookRouter.get("/getById/:id", getBookById);
+bookRouter.put("/update/:id", updateBook);
 
 module.exports = bookRouter;
