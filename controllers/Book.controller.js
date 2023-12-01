@@ -83,7 +83,40 @@ const addBookReview = async (req, res, next) => {
 
     await book.save();
 
-    res.status(201).json({ message: "Review added successfully", book });
+    res
+      .status(201)
+      .json({ status: 201, message: "Review added successfully", book });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addLendingHistory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userId, borrowedDate, returnedDate } = req.body;
+
+    const book = await Book.findById(id);
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    const lendingRecord = {
+      user: userId,
+      borrowedDate: new Date(borrowedDate),
+      returnedDate: returnedDate ? new Date(returnedDate) : null,
+    };
+
+    book.lendingHistory.push(lendingRecord);
+    await book.save();
+
+    res
+      .status(201)
+      .json({
+        status: 201,
+        message: "Lending history added successfully",
+        book,
+      });
   } catch (error) {
     next(error);
   }
@@ -95,4 +128,5 @@ module.exports = {
   updateBook,
   deleteBook,
   addBookReview,
+  addLendingHistory
 };
