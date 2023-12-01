@@ -1,7 +1,7 @@
 const asyncHandler = require("./asyncHandler.middleware.js");
 const User = require("../models/User.model.js");
 
-const isAdminWithCookies = asyncHandler(async (req, res, next) => {
+const isAdmin = asyncHandler(async (req, res, next) => {
   const userId = req.cookies.userId;
 
   if (!userId) {
@@ -26,4 +26,4 @@ const isAdminWithCookies = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = isAdminWithCookies;
+module.exports = {isAdmin};

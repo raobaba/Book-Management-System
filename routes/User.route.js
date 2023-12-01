@@ -6,7 +6,7 @@ const {
   Logout,
   getAllUsers,
 } = require("../controllers/User.controller.js");
-const isAdmin = require("../middlewares/isAdmin.middleware.js");
+const {isAdmin} = require("../middlewares/isAdmin.middleware.js");
 
 userRouter.post("/register", Register);
 userRouter.post("/login", Login);

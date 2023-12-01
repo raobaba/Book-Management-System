@@ -10,7 +10,7 @@ const {
   getAllBooks,
 } = require("../controllers/Book.controller.js");
 const isLoggedIn = require("../middlewares/login.middleware.js");
-const isAdmin = require("../middlewares/isAdmin.middleware.js");
+const {isAdmin} = require("../middlewares/isAdmin.middleware.js");
 
 bookRouter.post("/create", isLoggedIn, createBook);
 bookRouter.get("/getById/:id", isLoggedIn, getBookById);
