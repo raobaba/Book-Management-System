@@ -7,14 +7,14 @@ const {
   deleteBook,
   addBookReview,
   addLendingHistory,
-  
 } = require("../controllers/Book.controller.js");
+const isLoggedIn = require("../middlewares/login.middleware.js");
 
-bookRouter.post("/create", createBook);
-bookRouter.get("/getById/:id", getBookById);
-bookRouter.put("/update/:id", updateBook);
-bookRouter.delete("/delete/:id", deleteBook);
-bookRouter.post('/:id/review',addBookReview);
-bookRouter.post('/:id/land-history',addLendingHistory);
+bookRouter.post("/create", isLoggedIn, createBook);
+bookRouter.get("/getById/:id", isLoggedIn, getBookById);
+bookRouter.put("/update/:id", isLoggedIn, updateBook);
+bookRouter.delete("/delete/:id", isLoggedIn, deleteBook);
+bookRouter.post("/:id/review", isLoggedIn, addBookReview);
+bookRouter.post("/:id/land-history", isLoggedIn, addLendingHistory);
 
 module.exports = bookRouter;

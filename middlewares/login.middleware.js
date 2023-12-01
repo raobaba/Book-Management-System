@@ -3,8 +3,9 @@ const asyncHandler = require('./asyncHandler.middleware.js');
 
 const isLoggedIn = asyncHandler(async (req, res, next) => {
   const token = req.cookies.token;
+
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    return res.status(401).json({ message: 'Logged in first to do this operation' });
   }
 
   try {
